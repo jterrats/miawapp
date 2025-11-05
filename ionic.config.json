@@ -1,0 +1,7 @@
+{
+  "name": "miawapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
