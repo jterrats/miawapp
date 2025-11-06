@@ -1,0 +1,44 @@
+pluginManagement {
+  repositories { google(); mavenCentral(); gradlePluginPortal() }
+}
+
+dependencyResolutionManagement {
+  repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+  repositories {
+    google()
+    mavenCentral()
+    // S3 SOLO para Salesforce
+    maven {
+      url "https://s3.amazonaws.com/inapp.salesforce.com/public/android"
+      content {
+        includeGroup "com.salesforce.service"
+        includeGroupByRegex "com\\.salesforce\\..*"
+      }
+    }
+  }
+}
+
+rootProject.name = "miawapp"
+
+include ':app'
+
+include ':capacitor-cordova-android-plugins'
+project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
+
+include ':capacitor-android'
+project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
+
+// Tu plugin local
+include ':capacitor-salesforce-miaw'
+project(':capacitor-salesforce-miaw').projectDir = new File('../../capacitor-salesforce-miaw/android')
+
+/*
+ * IMPORTANTE:
+ * Si instalas otros plugins oficiales de Capacitor (haptics, keyboard, etc.),
+ * debes incluirlos aquí también, por ejemplo:
+ *
+ * include ':capacitor-haptics'
+ * project(':capacitor-haptics').projectDir = new File('../node_modules/@capacitor/haptics/android')
+ *
+ * y luego agregar implementation project(':capacitor-haptics') en app/build.gradle
+ */

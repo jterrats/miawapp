@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Soporte</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button expand="block" (click)="openChat()" [disabled]="isOpening">
+    Abrir chat
+  </ion-button>
+
+  <ion-button expand="block" color="medium" (click)="closeChat()">
+    Cerrar chat
+  </ion-button>
+</ion-content>
