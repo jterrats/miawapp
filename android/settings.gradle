@@ -30,15 +30,4 @@ project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/
 
 // Tu plugin local
 include ':capacitor-salesforce-miaw'
-project(':capacitor-salesforce-miaw').projectDir = new File('../../capacitor-salesforce-miaw/android')
-
-/*
- * IMPORTANTE:
- * Si instalas otros plugins oficiales de Capacitor (haptics, keyboard, etc.),
- * debes incluirlos aquí también, por ejemplo:
- *
- * include ':capacitor-haptics'
- * project(':capacitor-haptics').projectDir = new File('../node_modules/@capacitor/haptics/android')
- *
- * y luego agregar implementation project(':capacitor-haptics') en app/build.gradle
- */
+project(':capacitor-salesforce-miaw').projectDir = new File('../node_modules/capacitor-salesforce-miaw/android')

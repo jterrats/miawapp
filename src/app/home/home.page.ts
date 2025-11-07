@@ -33,7 +33,7 @@ export class HomePage {
       this.isOpening = true;
 
       await Miaw.initialize({
-        configFileName: 'configFile.json', // 👈 se lee desde /android/app/src/main/assets
+        configFileName: 'configFile.json',
       } as any);
 
       await Miaw.openConversation();

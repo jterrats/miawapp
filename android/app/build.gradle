@@ -44,13 +44,7 @@ dependencies {
   implementation project(':capacitor-android')
   implementation project(':capacitor-cordova-android-plugins')
 
-  // Tu plugin local con Salesforce UI SDK
+  // plugin local con Salesforce UI SDK
   implementation project(':capacitor-salesforce-miaw')
 
-  // Si agregas otros @capacitor/*, añádelos aquí como:
-  // implementation project(':capacitor-haptics')
-  // implementation project(':capacitor-keyboard')
-  // ...
 }
-
-// ❌ NO uses: apply from: '../capacitor.build.gradle'
