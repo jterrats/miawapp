@@ -6,6 +6,7 @@ type MiawPlugin = {
     orgId: string;
     developerName: string;
     serviceUrl: string;
+    configFileName: string;
   }): Promise<void>;
   openConversation(): Promise<void>;
   closeConversation(): Promise<void>;
@@ -17,9 +18,10 @@ const Miaw = registerPlugin<MiawPlugin>('SFMiawPlugin');
 export class MiawService {
   async init() {
     await Miaw.initialize({
-      orgId: '00DO300000EnBAL',
-      developerName: 'SC_AComerClubMobile',
-      serviceUrl: 'https://loyaltysfgrg--uat.sandbox.my.salesforce-scrt.com'
+      orgId: '',
+      developerName: '',
+      serviceUrl: '',
+      configFileName: 'configFile.json'
     });
     console.log('Miaw initialized');
   }
