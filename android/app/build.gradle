@@ -47,4 +47,9 @@ dependencies {
   // plugin local con Salesforce UI SDK
   implementation project(':capacitor-salesforce-miaw')
 
+  implementation project(':capacitor-app')
+  implementation project(':capacitor-haptics')
+  implementation project(':capacitor-keyboard')
+  implementation project(':capacitor-status-bar')
+
 }

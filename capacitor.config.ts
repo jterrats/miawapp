@@ -4,9 +4,13 @@ const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'miawapp',
   webDir: 'www',
+  // server: {
+  //   url: 'http://192.168.50.235:8100',
+  //   allowNavigation: ['192.168.50.235']
+  // }
   server: {
-    url: 'http://192.168.50.235:8100',
-    allowNavigation: ['192.168.50.235']
+    url: 'http://192.168.1.227:8100',
+    allowNavigation: ['192.168.1.227']
   }
 };
 

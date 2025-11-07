@@ -28,6 +28,18 @@ project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor
 include ':capacitor-android'
 project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
 
+include ':capacitor-app'
+project(':capacitor-app').projectDir = new File('../node_modules/@capacitor/app/android')
+
+include ':capacitor-haptics'
+project(':capacitor-haptics').projectDir = new File('../node_modules/@capacitor/haptics/android')
+
+include ':capacitor-keyboard'
+project(':capacitor-keyboard').projectDir = new File('../node_modules/@capacitor/keyboard/android')
+
+include ':capacitor-status-bar'
+project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacitor/status-bar/android')
+
 // Tu plugin local
 include ':capacitor-salesforce-miaw'
 project(':capacitor-salesforce-miaw').projectDir = new File('../node_modules/capacitor-salesforce-miaw/android')

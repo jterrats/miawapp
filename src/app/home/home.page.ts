@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Capacitor } from '@capacitor/core';
 import {
   IonHeader,
   IonToolbar,
@@ -8,7 +9,7 @@ import {
   IonButton,
 } from '@ionic/angular/standalone';
 
-import { Miaw } from 'capacitor-salesforce-miaw';
+import { Miaw, InitializeOptions } from 'capacitor-salesforce-miaw';
 
 @Component({
   selector: 'app-home',
@@ -27,20 +28,37 @@ import { Miaw } from 'capacitor-salesforce-miaw';
 })
 export class HomePage {
   isOpening = false;
+  private miawReady = false;
+
+  async ionViewDidEnter() {
+    if (!Capacitor.isNativePlatform()) {
+      console.log('[Miaw] Solo disponible en app nativa');
+      return;
+    }
+
+    const options: InitializeOptions = {
+      configFileName: 'configFile.json',
+    };
+
+    try {
+      const res = await Miaw.initialize(options);
+      console.log('[Miaw] initialize OK', res);
+      this.miawReady = true;
+    } catch (err) {
+      console.error('[Miaw] Error en initialize', err);
+    }
+  }
 
   async openChat() {
+    if (!Capacitor.isNativePlatform()) {
+      alert('El chat solo está disponible en la app instalada');
+      return;
+    }
+
     try {
-      this.isOpening = true;
-
-      await Miaw.initialize({
-        configFileName: 'configFile.json',
-      } as any);
-
       await Miaw.openConversation();
     } catch (err) {
       console.error('[Miaw] Error al abrir el chat', err);
-    } finally {
-      this.isOpening = false;
     }
   }
 
