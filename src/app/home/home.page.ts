@@ -7,9 +7,11 @@ import {
   IonTitle,
   IonContent,
   IonButton,
+  IonSpinner,
 } from '@ionic/angular/standalone';
 
 import { Miaw, InitializeOptions } from 'capacitor-salesforce-miaw';
+import { MiawChatService } from '../services/miaw-chat.service';
 
 @Component({
   selector: 'app-home',
@@ -24,11 +26,14 @@ import { Miaw, InitializeOptions } from 'capacitor-salesforce-miaw';
     IonTitle,
     IonContent,
     IonButton,
+    IonSpinner,
   ],
 })
 export class HomePage {
-  isOpening = false;
+  isLoading = false;
   private miawReady = false;
+
+  constructor(private miawChatService: MiawChatService) {}
 
   async ionViewDidEnter() {
     if (!Capacitor.isNativePlatform()) {
@@ -55,16 +60,20 @@ export class HomePage {
       return;
     }
 
+    this.isLoading = true;
     try {
-      await Miaw.openConversation();
+      await this.miawChatService.openConversation();
+      console.log('[Miaw] home openChat OK');
     } catch (err) {
-      console.error('[Miaw] Error al abrir el chat', err);
+      console.error('[Miaw] home error openChat', err);
+    } finally {
+      this.isLoading = false;
     }
   }
 
   async closeChat() {
     try {
-      const res = await Miaw.closeConversation();
+      const res = await this.miawChatService.closeConversation();
       console.log('[MIAW] closeConversation', res);
     } catch (err) {
       console.error('[MIAW] error closeChat', err);

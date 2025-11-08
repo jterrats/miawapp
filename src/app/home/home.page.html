@@ -5,8 +5,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-button expand="block" (click)="openChat()" [disabled]="isOpening">
-    Abrir chat
+  <ion-button expand="block" (click)="openChat()" [disabled]="isLoading">
+    <ion-spinner *ngIf="isLoading" name="dots"></ion-spinner>
+    <span *ngIf="!isLoading">Chatea con nosotros</span>
   </ion-button>
 
   <ion-button expand="block" color="medium" (click)="closeChat()">
