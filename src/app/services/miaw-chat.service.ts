@@ -3,9 +3,9 @@ import { Platform } from '@ionic/angular';
 import { Miaw } from 'capacitor-salesforce-miaw';
 
 interface InitializeOptions {
-  serviceUrl?: string;
-  orgId?: string;
-  developerName?: string;
+  Url?: string;
+  OrganizationId?: string;
+  DeveloperName?: string;
   configFileName?: string;
 }
 
@@ -16,9 +16,9 @@ export class MiawChatService {
   private initializing = false;
 
   private config: InitializeOptions = {
-    orgId: '',
-    developerName: '',
-    serviceUrl: '',
+    OrganizationId: '',
+    DeveloperName: '',
+    Url: '',
     configFileName: 'configFile.json'
   };
 
