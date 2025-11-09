@@ -16,6 +16,9 @@ export class MiawChatService {
   private initializing = false;
 
   private config: InitializeOptions = {
+    orgId: '',
+    developerName: '',
+    serviceUrl: '',
     configFileName: 'configFile.json'
   };
 
@@ -40,23 +43,11 @@ export class MiawChatService {
     }
   }
 
-  async openConversation() : Promise<void> {
-    if (!this.initialized) return;
-    try {
-      await Miaw.openConversation();
-    } catch (err) {
-      console.error('Error opening Miaw', err);
-      throw err;
-    }
+  async openConversation() {
+    return Miaw.openConversation();
   }
 
-  async closeConversation(): Promise<void> {
-    if (!this.initialized) return;
-    try {
-      await Miaw.closeConversation();
-    } catch (err) {
-      console.error('Error closing Miaw', err);
-      throw err;
-    }
+  async closeConversation() {
+      return Miaw.closeConversation();
   }
 }

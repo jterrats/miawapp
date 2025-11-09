@@ -10,7 +10,7 @@ import {
   IonSpinner,
 } from '@ionic/angular/standalone';
 
-import { Miaw, InitializeOptions } from 'capacitor-salesforce-miaw';
+import { Miaw } from 'capacitor-salesforce-miaw';
 import { MiawChatService } from '../services/miaw-chat.service';
 
 @Component({
@@ -41,7 +41,7 @@ export class HomePage {
       return;
     }
 
-    const options: InitializeOptions = {
+    const options = {
       configFileName: 'configFile.json',
     };
 
