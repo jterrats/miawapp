@@ -11,8 +11,8 @@ import {
   IonSpinner,
 } from '@ionic/angular/standalone';
 
-// 👇 OJO: ya NO importamos InitializeOptions
-import { Miaw } from 'capacitor-salesforce-miaw';
+import { Miaw } from '../plugins/miaw.plugins';
+import { MiawChatService } from '../services/miaw-chat.service';
 
 @Component({
   selector: 'app-home',
@@ -31,9 +31,8 @@ import { Miaw } from 'capacitor-salesforce-miaw';
 })
 export class HomePage {
   isLoading = false;
-  miawReady = false;
 
-  constructor() {}
+  constructor(private miawService: MiawChatService) {}
 
   async ionViewDidEnter() {
     if (!Capacitor.isNativePlatform()) {
@@ -41,18 +40,8 @@ export class HomePage {
       return;
     }
 
-    try {
-      // 👇 NO le pasamos nada: el plugin usará res/raw/config_file.json
-      const res = await Miaw.initialize({
-        serviceUrl: undefined,
-        orgId: undefined,
-        developerName: undefined
-      });
-      console.log('[Miaw] initialize OK', res);
-      this.miawReady = true;
-    } catch (err) {
-      console.error('[Miaw] Error en initialize', err);
-    }
+    // No need to initialize here - the service does it automatically!
+    console.log('[Miaw] Ready to use - initialized by service');
   }
 
   async openChat() {
@@ -61,16 +50,11 @@ export class HomePage {
       return;
     }
 
-    if (!this.miawReady) {
-      console.warn('[Miaw] openChat llamado antes de initialize.');
-      return;
-    }
-
     this.isLoading = true;
 
     try {
-      // Llamamos directamente al plugin nativo
-      const res = await Miaw.openConversation();
+      // Use the service method which handles everything
+      const res = await this.miawService.openConversation();
       console.log('[Miaw] openConversation OK', res);
     } catch (err) {
       console.error('[Miaw] Error en openConversation', err);
@@ -81,7 +65,7 @@ export class HomePage {
 
   async closeChat() {
     try {
-      const res = await Miaw.closeConversation();
+      const res = await this.miawService.closeConversation();
       console.log('[Miaw] closeConversation OK', res);
     } catch (err) {
       console.error('[Miaw] Error en closeConversation', err);
