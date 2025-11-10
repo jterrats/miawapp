@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.getcapacitor.BridgeActivity;
 
-import com.acomerclub.plugins.miaw.SFMiawPlugin;
+import com.professionalserviceslatam.plugins.miaw.SFMiawPlugin;
 
 public class MainActivity extends BridgeActivity {
 
