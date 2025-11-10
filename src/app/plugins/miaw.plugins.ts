@@ -1,8 +1,11 @@
 import { registerPlugin } from '@capacitor/core';
 
 export interface MiawPlugin {
-  initializeFromConfig(options?: {
-    configFile?: string;
+  initialize(options?: {
+    configFileName?: string;
+    Url?: string;
+    OrganizationId?: string;
+    DeveloperName?: string;
   }): Promise<{ status: string }>;
 
   openConversation(): Promise<{ status: string }>;

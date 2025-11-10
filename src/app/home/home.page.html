@@ -5,12 +5,20 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-button expand="block" (click)="openChat()" [disabled]="isLoading">
-    <ion-spinner *ngIf="isLoading" name="dots"></ion-spinner>
-    <span *ngIf="!isLoading">Chatea con nosotros</span>
+  <ion-button expand="block" (click)="openChat()" [disabled]="!miawReady || isLoading">
+    Abrir chat
   </ion-button>
 
-  <ion-button expand="block" color="medium" (click)="closeChat()">
+  <ion-button expand="block" color="medium" (click)="closeChat()" [disabled]="isLoading">
     Cerrar chat
   </ion-button>
+
+  <div style="margin-top:16px; text-align:center" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <div>Cargando chat...</div>
+  </div>
+
+  <div style="margin-top:16px; text-align:center" *ngIf="!miawReady">
+    Inicializando SDK de Salesforce...
+  </div>
 </ion-content>

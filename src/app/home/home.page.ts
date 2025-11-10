@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Capacitor } from '@capacitor/core';
+
 import {
   IonHeader,
   IonToolbar,
@@ -10,15 +11,14 @@ import {
   IonSpinner,
 } from '@ionic/angular/standalone';
 
+// 👇 OJO: ya NO importamos InitializeOptions
 import { Miaw } from 'capacitor-salesforce-miaw';
-import { MiawChatService } from '../services/miaw-chat.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  // 👇 IMPORTANTE: aquí registramos los componentes de Ionic que usamos en la plantilla
   imports: [
     CommonModule,
     IonHeader,
@@ -31,9 +31,9 @@ import { MiawChatService } from '../services/miaw-chat.service';
 })
 export class HomePage {
   isLoading = false;
-  private miawReady = false;
+  miawReady = false;
 
-  constructor(private miawChatService: MiawChatService) {}
+  constructor() {}
 
   async ionViewDidEnter() {
     if (!Capacitor.isNativePlatform()) {
@@ -41,12 +41,13 @@ export class HomePage {
       return;
     }
 
-    const options = {
-      configFileName: 'configFile.json',
-    };
-
     try {
-      const res = await Miaw.initialize(options);
+      // 👇 NO le pasamos nada: el plugin usará res/raw/config_file.json
+      const res = await Miaw.initialize({
+        serviceUrl: undefined,
+        orgId: undefined,
+        developerName: undefined
+      });
       console.log('[Miaw] initialize OK', res);
       this.miawReady = true;
     } catch (err) {
@@ -60,12 +61,19 @@ export class HomePage {
       return;
     }
 
+    if (!this.miawReady) {
+      console.warn('[Miaw] openChat llamado antes de initialize.');
+      return;
+    }
+
     this.isLoading = true;
+
     try {
-      await this.miawChatService.openConversation();
-      console.log('[Miaw] home openChat OK');
+      // Llamamos directamente al plugin nativo
+      const res = await Miaw.openConversation();
+      console.log('[Miaw] openConversation OK', res);
     } catch (err) {
-      console.error('[Miaw] home error openChat', err);
+      console.error('[Miaw] Error en openConversation', err);
     } finally {
       this.isLoading = false;
     }
@@ -73,10 +81,10 @@ export class HomePage {
 
   async closeChat() {
     try {
-      const res = await this.miawChatService.closeConversation();
-      console.log('[MIAW] closeConversation', res);
+      const res = await Miaw.closeConversation();
+      console.log('[Miaw] closeConversation OK', res);
     } catch (err) {
-      console.error('[MIAW] error closeChat', err);
+      console.error('[Miaw] Error en closeConversation', err);
     }
   }
 }

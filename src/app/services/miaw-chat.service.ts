@@ -1,26 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { Miaw } from 'capacitor-salesforce-miaw';
-
-interface InitializeOptions {
-  Url?: string;
-  OrganizationId?: string;
-  DeveloperName?: string;
-  configFileName?: string;
-}
+import { Miaw } from '../plugins/miaw.plugins';
 
 @Injectable({ providedIn: 'root' })
 
 export class MiawChatService {
   private initialized = false;
   private initializing = false;
-
-  private config: InitializeOptions = {
-    OrganizationId: '',
-    DeveloperName: '',
-    Url: '',
-    configFileName: 'configFile.json'
-  };
 
   constructor(private platform: Platform) {
     this.platform.ready().then(() => {
@@ -34,7 +20,10 @@ export class MiawChatService {
     if (this.initialized || this.initializing) return;
     this.initializing = true;
     try {
-      await Miaw.initialize(this.config);
+      const result = await Miaw.initialize({
+        configFileName: 'configFile.json'
+      });
+      console.log('Miaw initialized:', result);
       this.initialized = true;
     } catch (err) {
       console.error('Error initializing Miaw', err);
