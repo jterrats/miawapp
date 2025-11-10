@@ -20,13 +20,18 @@ export class MiawChatService {
     if (this.initialized || this.initializing) return;
     this.initializing = true;
     try {
+      console.log('[MiawChatService] 🔹 Calling Miaw.initialize() with:', {
+        configFileName: 'configFile.json'
+      });
+
       const result = await Miaw.initialize({
         configFileName: 'configFile.json'
       });
-      console.log('Miaw initialized:', result);
+
+      console.log('[MiawChatService] ✅ Miaw.initialize() result:', result);
       this.initialized = true;
     } catch (err) {
-      console.error('Error initializing Miaw', err);
+      console.error('[MiawChatService] ❌ Error initializing Miaw:', err);
     } finally {
       this.initializing = false;
     }

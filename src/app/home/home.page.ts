@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Capacitor } from '@capacitor/core';
+import { addIcons } from 'ionicons';
+import { chatbubbleEllipses } from 'ionicons/icons';
 
 import {
   IonHeader,
   IonToolbar,
   IonTitle,
   IonContent,
-  IonButton,
   IonSpinner,
+  IonFab,
+  IonFabButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
 
 import { Miaw } from '../plugins/miaw.plugins';
@@ -25,18 +29,22 @@ import { MiawChatService } from '../services/miaw-chat.service';
     IonToolbar,
     IonTitle,
     IonContent,
-    IonButton,
     IonSpinner,
+    IonFab,
+    IonFabButton,
+    IonIcon,
   ],
 })
 export class HomePage {
   isLoading = false;
 
-  constructor(private miawService: MiawChatService) {}
+  constructor(private miawService: MiawChatService) {
+    addIcons({ chatbubbleEllipses });
+  }
 
   async ionViewDidEnter() {
     if (!Capacitor.isNativePlatform()) {
-      console.log('[Miaw] Solo disponible en app nativa');
+      console.log('[Miaw] Only available on native app');
       return;
     }
 
@@ -45,21 +53,26 @@ export class HomePage {
   }
 
   async openChat() {
+    console.log('🔵 [HomePage] openChat() started');
+
     if (!Capacitor.isNativePlatform()) {
-      alert('El chat solo está disponible en la app instalada');
+      alert('Chat is only available in the installed app');
       return;
     }
 
+    console.log('🔵 [HomePage] Native platform detected');
     this.isLoading = true;
 
     try {
-      // Use the service method which handles everything
+      console.log('🔵 [HomePage] Calling miawService.openConversation()...');
       const res = await this.miawService.openConversation();
-      console.log('[Miaw] openConversation OK', res);
+      console.log('✅ [HomePage] openConversation OK - Real Salesforce SDK!', res);
     } catch (err) {
-      console.error('[Miaw] Error en openConversation', err);
+      console.error('❌ [HomePage] Error in openConversation', err);
+      alert('Error opening chat: ' + JSON.stringify(err));
     } finally {
       this.isLoading = false;
+      console.log('🔵 [HomePage] openChat() finished');
     }
   }
 
@@ -68,7 +81,7 @@ export class HomePage {
       const res = await this.miawService.closeConversation();
       console.log('[Miaw] closeConversation OK', res);
     } catch (err) {
-      console.error('[Miaw] Error en closeConversation', err);
+      console.error('[Miaw] Error in closeConversation', err);
     }
   }
 }

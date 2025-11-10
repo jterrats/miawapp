@@ -2,3 +2,55 @@
 :host {
     display: block;
 }
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    gap: 16px;
+}
+
+.loading-text {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+ion-fab {
+    margin-right: 20px;
+}
+
+// Android - margin normal
+.md ion-fab {
+    margin-bottom: 80px;
+}
+
+// iOS - margin extra por el home indicator
+.ios ion-fab {
+    margin-bottom: 120px;
+}
+
+ion-fab-button {
+    --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    --background: #3880ff;
+    --background-activated: #3171e0;
+    --background-hover: #3171e0;
+    width: 70px;
+    height: 70px;
+
+    ion-icon {
+        font-size: 32px;
+    }
+
+    &[disabled] {
+        opacity: 0.5;
+    }
+}

@@ -1,20 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Soporte</ion-title>
+    <ion-title>Support</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-button expand="block" (click)="openChat()" [disabled]="isLoading">
-    Abrir chat
-  </ion-button>
+  <h2>Need help?</h2>
+  <p>Click the chat button to start a conversation with our support team.</p>
 
-  <ion-button expand="block" color="medium" (click)="closeChat()" [disabled]="isLoading">
-    Cerrar chat
-  </ion-button>
+  <!-- Floating Action Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openChat()" [disabled]="isLoading" color="primary">
+      <ion-icon name="chatbubble-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-  <div style="margin-top:16px; text-align:center" *ngIf="isLoading">
-    <ion-spinner name="crescent"></ion-spinner>
-    <div>Cargando chat...</div>
+  <!-- Loading overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <div class="loading-text">Opening chat...</div>
   </div>
 </ion-content>
