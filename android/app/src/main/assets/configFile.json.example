@@ -1,6 +1,7 @@
 {
-  "Url": "https://your-org--sandbox.sandbox.my.salesforce-scrt.com",
   "OrganizationId": "00DXXXXXXXXXXXXXXXXX",
-  "DeveloperName": "Your_Deployment_Name"
+  "DeveloperName": "Your_Deployment_Name",
+  "Url": "https://your-org--sandbox.sandbox.my.salesforce-scrt.com",
+  "UserVerificationRequired": true
 }
 
