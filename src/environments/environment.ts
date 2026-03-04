@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  /** Backend API URL. Emulator: 10.0.2.2. Device: tu IP o ngrok */
+  apiUrl: 'http://10.0.2.2:3000'
 };
 
 /*

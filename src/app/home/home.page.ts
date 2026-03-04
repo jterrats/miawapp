@@ -1,22 +1,25 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { addIcons } from 'ionicons';
-import { chatbubbleEllipses } from 'ionicons/icons';
+import { chatbubbleEllipses, logOutOutline } from 'ionicons/icons';
 
 import {
   IonHeader,
   IonToolbar,
   IonTitle,
+  IonButtons,
   IonContent,
   IonSpinner,
   IonFab,
   IonFabButton,
   IonIcon,
+  IonButton,
 } from '@ionic/angular/standalone';
 
-import { Miaw } from '../plugins/miaw.plugins';
 import { MiawChatService } from '../services/miaw-chat.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -28,18 +31,28 @@ import { MiawChatService } from '../services/miaw-chat.service';
     IonHeader,
     IonToolbar,
     IonTitle,
+    IonButtons,
     IonContent,
     IonSpinner,
     IonFab,
     IonFabButton,
     IonIcon,
+    IonButton,
   ],
 })
 export class HomePage {
   isLoading = false;
 
-  constructor(private miawService: MiawChatService) {
-    addIcons({ chatbubbleEllipses });
+  constructor(
+    private miawService: MiawChatService,
+    private auth: AuthService,
+    private router: Router
+  ) {
+    addIcons({ chatbubbleEllipses, logOutOutline });
+  }
+
+  get user() {
+    return this.auth.getUser();
   }
 
   async ionViewDidEnter() {
@@ -48,8 +61,9 @@ export class HomePage {
       return;
     }
 
-    // No need to initialize here - the service does it automatically!
-    console.log('[Miaw] Ready to use - initialized by service');
+    // Chat configured in LoginPage; setupChat no-ops if already initialized
+    await this.miawService.setupChat();
+    console.log('[Miaw] Ready to use');
   }
 
   async openChat() {
@@ -83,5 +97,11 @@ export class HomePage {
     } catch (err) {
       console.error('[Miaw] Error in closeConversation', err);
     }
+  }
+
+  async logout() {
+    await this.miawService.logout();
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
 }

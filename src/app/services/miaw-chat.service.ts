@@ -2,38 +2,66 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Miaw } from '../plugins/miaw.plugins';
 
-@Injectable({ providedIn: 'root' })
+export interface AuthConfig {
+  backendUrl: string;
+  userEmail: string;
+}
 
+@Injectable({ providedIn: 'root' })
 export class MiawChatService {
   private initialized = false;
   private initializing = false;
+  private authConfig: AuthConfig | null = null;
 
-  constructor(private platform: Platform) {
-    this.platform.ready().then(() => {
-      if(this.platform.is('capacitor')) {
-        this.init().catch(err => console.error('Error initializing Miaw', err));
-      }
-    });
+  constructor(private platform: Platform) {}
+
+  /**
+   * Configure authentication for User Verification.
+   * Call before init() when using authenticated chat.
+   */
+  async configureAuthentication(backendUrl: string, userEmail: string): Promise<void> {
+    this.authConfig = { backendUrl, userEmail };
+    await Miaw.setBackendUrl({ backendUrl });
+    await Miaw.setAuthenticatedUser({ email: userEmail });
+    console.log('[MiawChatService] Auth configured for:', userEmail);
   }
 
-  private async init(): Promise<void> {
+  /**
+   * Initialize SDK. Call configureAuthentication first if using User Verification.
+   */
+  async init(): Promise<void> {
     if (this.initialized || this.initializing) return;
     this.initializing = true;
     try {
-      console.log('[MiawChatService] 🔹 Calling Miaw.initialize() with:', {
-        configFileName: 'configFile.json'
+      const userVerificationRequired = !!this.authConfig;
+      console.log('[MiawChatService] Calling Miaw.initialize() with:', {
+        configFileName: 'configFile.json',
+        userVerificationRequired
       });
 
-      const result = await Miaw.initialize({
-        configFileName: 'configFile.json'
+      await Miaw.initialize({
+        configFileName: 'configFile.json',
+        userVerificationRequired
       });
 
-      console.log('[MiawChatService] ✅ Miaw.initialize() result:', result);
+      console.log('[MiawChatService] Miaw initialized');
       this.initialized = true;
     } catch (err) {
-      console.error('[MiawChatService] ❌ Error initializing Miaw:', err);
+      console.error('[MiawChatService] Error initializing Miaw', err);
     } finally {
       this.initializing = false;
+    }
+  }
+
+  /**
+   * Setup chat with optional authentication. Call this when user logs in.
+   */
+  async setupChat(backendUrl?: string, userEmail?: string): Promise<void> {
+    if (backendUrl && userEmail) {
+      await this.configureAuthentication(backendUrl, userEmail);
+    }
+    if (!this.initialized) {
+      await this.init();
     }
   }
 
@@ -42,6 +70,16 @@ export class MiawChatService {
   }
 
   async closeConversation() {
-      return Miaw.closeConversation();
+    return Miaw.closeConversation();
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await Miaw.logout();
+      this.authConfig = null;
+      console.log('[MiawChatService] Logged out');
+    } catch (err) {
+      console.error('[MiawChatService] Logout error', err);
+    }
   }
 }

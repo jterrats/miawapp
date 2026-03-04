@@ -1,0 +1,35 @@
+.login-container {
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--ion-color-medium);
+  margin-bottom: 2rem;
+}
+
+.login-form {
+  ion-item {
+    --background: var(--ion-color-light);
+    --border-radius: 8px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.guest-section {
+  text-align: center;
+  margin-top: 2rem;
+}

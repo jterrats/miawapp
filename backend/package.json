@@ -1,0 +1,21 @@
+{
+  "name": "miawapp-backend",
+  "version": "1.0.0",
+  "description": "Backend para miawapp - login por email con OAuth Client Credentials (sin credenciales Salesforce)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "generate-keys": "node -e \"const crypto = require('crypto'); const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', { modulusLength: 2048, publicKeyEncoding: { type: 'spki', format: 'pem' }, privateKeyEncoding: { type: 'pkcs8', format: 'pem' } }); const fs = require('fs'); fs.writeFileSync('private-key.pem', privateKey); fs.writeFileSync('public-key.pem', publicKey); console.log('✅ Keys: private-key.pem, public-key.pem');\""
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "jsforce": "^1.11.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

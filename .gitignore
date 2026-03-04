@@ -72,3 +72,9 @@ Thumbs.db
 # Salesforce Configuration (contains sensitive data)
 android/app/src/main/assets/configFile.json
 ios/App/App/configFile.json
+
+# Backend
+backend/.env
+backend/private-key.pem
+backend/public-key.pem
+backend/node_modules

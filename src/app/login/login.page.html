@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <h2>Support Chat</h2>
+    <p class="subtitle">Enter your email to access personalized support</p>
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="your@email.com"
+          [disabled]="isLoading"
+          autocomplete="email"
+        ></ion-input>
+      </ion-item>
+
+      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <ion-button
+        type="submit"
+        expand="block"
+        [disabled]="isLoading"
+        class="ion-margin-top"
+      >
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+        <span *ngIf="!isLoading">Sign in</span>
+      </ion-button>
+    </form>
+
+    <div class="guest-section">
+      <ion-button fill="clear" (click)="continueAsGuest()" [disabled]="isLoading">
+        Continue as guest
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

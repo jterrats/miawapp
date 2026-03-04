@@ -1,12 +1,18 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Support</ion-title>
+    <ion-buttons slot="end" *ngIf="user">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <h2>Need help?</h2>
-  <p>Click the chat button to start a conversation with our support team.</p>
+  <p *ngIf="user">Welcome, {{ user.firstName || user.email }}!</p>
+  <p *ngIf="!user">Click the chat button to start a conversation with our support team.</p>
 
   <!-- Floating Action Button -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
