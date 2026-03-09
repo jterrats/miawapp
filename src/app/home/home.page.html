@@ -1,9 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Support</ion-title>
-    <ion-buttons slot="end" *ngIf="user">
+    <ion-buttons slot="end">
       <ion-button (click)="logout()">
         <ion-icon name="log-out-outline"></ion-icon>
+        <span *ngIf="!user" style="margin-left: 4px;">Back to Login</span>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

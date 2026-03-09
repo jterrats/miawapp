@@ -57,8 +57,16 @@ export class MiawChatService {
    * Setup chat with optional authentication. Call this when user logs in.
    */
   async setupChat(backendUrl?: string, userEmail?: string): Promise<void> {
+    const wasInitialized = this.initialized;
+    const wasGuest = wasInitialized && !this.authConfig;
+    
     if (backendUrl && userEmail) {
       await this.configureAuthentication(backendUrl, userEmail);
+      // Si ya estaba inicializado como guest, reinicializar con auth
+      if (wasGuest) {
+        console.log('[MiawChatService] Reinitializing SDK with authentication');
+        this.initialized = false;
+      }
     }
     if (!this.initialized) {
       await this.init();
