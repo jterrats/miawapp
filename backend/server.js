@@ -5,6 +5,8 @@
  * Genera JWT RSA para User Verification (MIAW).
  */
 
+require('dotenv').config();
+
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
