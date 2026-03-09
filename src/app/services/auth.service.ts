@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
 import { environment } from '../../environments/environment';
 
 export interface AuthUser {
@@ -37,7 +38,11 @@ export class AuthService {
     return session?.user ?? null;
   }
 
+  /** URL del backend según plataforma (environment.apiUrl / apiUrlIos). */
   getBackendUrl(): string {
+    if (Capacitor.getPlatform() === 'ios') {
+      return (environment as { apiUrlIos?: string }).apiUrlIos ?? environment.apiUrl;
+    }
     return environment.apiUrl;
   }
 
@@ -46,19 +51,26 @@ export class AuthService {
    * Backend searches user in Salesforce via OAuth Client Credentials.
    */
   async login(email: string): Promise<AuthSession> {
-    const url = `${environment.apiUrl}/api/auth/login`;
+    const url = `${this.getBackendUrl()}/api/auth/login`;
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email.trim().toLowerCase() })
     });
 
-    const data = await response.json();
-
+    const text = await response.text();
     if (!response.ok) {
-      throw new Error(data.error || 'Login failed');
+      let errorMsg = 'Login failed';
+      try {
+        const data = JSON.parse(text);
+        errorMsg = data.error ?? errorMsg;
+      } catch {
+        if (text) errorMsg = text;
+      }
+      throw new Error(errorMsg);
     }
 
+    const data = JSON.parse(text);
     const session: AuthSession = {
       user: data.user,
       verificationToken: data.verificationToken,

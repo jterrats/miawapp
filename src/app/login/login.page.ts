@@ -17,6 +17,7 @@ import {
 
 import { AuthService } from '../services/auth.service';
 import { MiawChatService } from '../services/miaw-chat.service';
+import { devLog } from '../core/logger';
 
 @Component({
   selector: 'app-login',
@@ -58,7 +59,7 @@ export class LoginPage {
     this.isLoading = true;
     try {
       const session = await this.auth.login(this.email);
-      console.log('[Login] Success:', session.user.email);
+      devLog('[Login] Success:', session.user.email);
 
       // Configure chat with User Verification
       await this.miawService.setupChat(

@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  /** Backend API URL. Emulator: 10.0.2.2. Device: tu IP o ngrok */
-  apiUrl: 'http://10.0.2.2:3000'
+  /** Backend API URL. Android emulador: 10.0.2.2. iOS simulador: localhost. Dispositivo físico: IP LAN (ej. 192.168.50.235) */
+  apiUrl: 'http://10.0.2.2:3000',
+  apiUrlIos: 'http://localhost:3000'
 };
 
 /*

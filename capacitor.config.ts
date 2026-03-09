@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.miawapp',
   appName: 'miawapp',
   webDir: 'www',
   // server: { url: 'http://TU_IP:8100' } para live reload

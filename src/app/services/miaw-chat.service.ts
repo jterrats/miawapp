@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Miaw } from '../plugins/miaw.plugins';
+import { devLog } from '../core/logger';
 
 export interface AuthConfig {
   backendUrl: string;
@@ -23,7 +24,7 @@ export class MiawChatService {
     this.authConfig = { backendUrl, userEmail };
     await Miaw.setBackendUrl({ backendUrl });
     await Miaw.setAuthenticatedUser({ email: userEmail });
-    console.log('[MiawChatService] Auth configured for:', userEmail);
+    devLog('[MiawChatService] Auth configured for:', userEmail);
   }
 
   /**
@@ -34,7 +35,7 @@ export class MiawChatService {
     this.initializing = true;
     try {
       const userVerificationRequired = !!this.authConfig;
-      console.log('[MiawChatService] Calling Miaw.initialize() with:', {
+      devLog('[MiawChatService] Calling Miaw.initialize() with:', {
         configFileName: 'configFile.json',
         userVerificationRequired
       });
@@ -44,10 +45,11 @@ export class MiawChatService {
         userVerificationRequired
       });
 
-      console.log('[MiawChatService] Miaw initialized');
+      devLog('[MiawChatService] Miaw initialized');
       this.initialized = true;
     } catch (err) {
       console.error('[MiawChatService] Error initializing Miaw', err);
+      throw err;
     } finally {
       this.initializing = false;
     }
@@ -64,7 +66,7 @@ export class MiawChatService {
       await this.configureAuthentication(backendUrl, userEmail);
       // Si ya estaba inicializado como guest, reinicializar con auth
       if (wasGuest) {
-        console.log('[MiawChatService] Reinitializing SDK with authentication');
+        devLog('[MiawChatService] Reinitializing SDK with authentication');
         this.initialized = false;
       }
     }
@@ -85,7 +87,7 @@ export class MiawChatService {
     try {
       await Miaw.logout();
       this.authConfig = null;
-      console.log('[MiawChatService] Logged out');
+      devLog('[MiawChatService] Logged out');
     } catch (err) {
       console.error('[MiawChatService] Logout error', err);
     }

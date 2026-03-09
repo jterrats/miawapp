@@ -20,6 +20,8 @@ import {
 
 import { MiawChatService } from '../services/miaw-chat.service';
 import { AuthService } from '../services/auth.service';
+import { devLog } from '../core/logger';
+import { ToastController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-home',
@@ -46,7 +48,8 @@ export class HomePage {
   constructor(
     private miawService: MiawChatService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private toastCtrl: ToastController
   ) {
     addIcons({ chatbubbleEllipses, logOutOutline });
   }
@@ -57,46 +60,57 @@ export class HomePage {
 
   async ionViewDidEnter() {
     if (!Capacitor.isNativePlatform()) {
-      console.log('[Miaw] Only available on native app');
+      devLog('[Miaw] Only available on native app');
       return;
     }
 
     // Chat configured in LoginPage; setupChat no-ops if already initialized
     await this.miawService.setupChat();
-    console.log('[Miaw] Ready to use');
+    devLog('[Miaw] Ready to use');
   }
 
   async openChat() {
-    console.log('🔵 [HomePage] openChat() started');
+    devLog('[HomePage] openChat() started');
 
     if (!Capacitor.isNativePlatform()) {
-      alert('Chat is only available in the installed app');
+      await this.showToast('Chat is only available in the installed app');
       return;
     }
 
-    console.log('🔵 [HomePage] Native platform detected');
+    devLog('[HomePage] Native platform detected');
     this.isLoading = true;
 
     try {
-      console.log('🔵 [HomePage] Calling miawService.openConversation()...');
-      const res = await this.miawService.openConversation();
-      console.log('✅ [HomePage] openConversation OK - Real Salesforce SDK!', res);
+      devLog('[HomePage] Calling miawService.openConversation()...');
+      await this.miawService.openConversation();
+      devLog('[HomePage] openConversation OK');
     } catch (err) {
-      console.error('❌ [HomePage] Error in openConversation', err);
-      alert('Error opening chat: ' + JSON.stringify(err));
+      console.error('[HomePage] Error in openConversation', err);
+      const msg = err instanceof Error ? err.message : 'Could not open chat';
+      await this.showToast(msg, 'danger');
     } finally {
       this.isLoading = false;
-      console.log('🔵 [HomePage] openChat() finished');
+      devLog('[HomePage] openChat() finished');
     }
   }
 
   async closeChat() {
     try {
-      const res = await this.miawService.closeConversation();
-      console.log('[Miaw] closeConversation OK', res);
+      await this.miawService.closeConversation();
+      devLog('[Miaw] closeConversation OK');
     } catch (err) {
       console.error('[Miaw] Error in closeConversation', err);
     }
+  }
+
+  private async showToast(message: string, color?: string): Promise<void> {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      color: color ?? 'primary',
+      position: 'bottom'
+    });
+    await toast.present();
   }
 
   async logout() {

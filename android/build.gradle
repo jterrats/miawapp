@@ -6,17 +6,4 @@ buildscript {
   }
 }
 
-// ⚙️ Opcional: configuración global común para módulos
-ext {
-  junitVersion = '4.13.2'
-  androidxAppCompatVersion = '1.7.0'
-  androidxCoordinatorLayoutVersion = '1.2.0'
-  androidxJunitVersion = '1.2.1'
-  androidxEspressoCoreVersion = '3.6.1'
-  coreSplashScreenVersion = '1.0.1'
-
-  // SDK de compilación común
-  compileSdkVersion = 35
-  minSdkVersion = 26
-  targetSdkVersion = 35
-}
+apply from: 'variables.gradle'

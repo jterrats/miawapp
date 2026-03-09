@@ -2,6 +2,20 @@
 
 Mobile application with Salesforce In-App Messaging integration for iOS and Android.
 
+## ⚠️ Disclaimer – Proof of Concept Only
+
+**This project is a POC (proof of concept) and is NOT intended for production use.**
+
+If you plan to use this repository as a base for a production application, be aware that:
+
+- **Security:** The app has development-oriented settings enabled (mixed content HTTP/HTTPS, cleartext traffic) that are **not suitable for production** and should be hardened before any public release.
+- **Configuration:** Environment URLs, API endpoints, and other settings are tuned for local development and emulators.
+- **Scope:** Features and error handling are minimal; production use would require additional hardening, testing, and security review.
+
+Use at your own risk. No production deployment is supported or recommended.
+
+---
+
 ## Prerequisites
 
 - Node.js 18+
