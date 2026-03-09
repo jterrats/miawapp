@@ -10,6 +10,7 @@
     "backend:dev": "cd backend && npm run dev",
     "build": "ng build",
     "android": "JAVA_HOME=\"/Applications/Android Studio.app/Contents/jbr/Contents/Home\" npx cap run android",
+    "ios": "npx cap run ios",
     "android:stop-daemon": "cd android && JAVA_HOME=\"/Applications/Android Studio.app/Contents/jbr/Contents/Home\" ./gradlew --stop",
     "android:logs": "adb logcat -s SFMiawManager:* SFMiaw_UserVerify:* SFMiawPlugin:*",
     "android:logs:all": "adb logcat | grep -iE 'SFMiaw|UserVerify|salesforce|SMI|send|fail|error|challenge|jwt|token'",
